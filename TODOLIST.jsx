@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState,useEffect } from "react";
 
-function ToDoList() {
+function To_do_list() {
   const [tasks, setTasks] = useState([]);
   const [task, setTask] = useState("");
 
   useEffect(() => {
     document.body.style.backgroundColor = "black";
-    return () => {
+    return ()=>{
       document.body.style.backgroundColor = "";
     };
-  }, []);
-
+  },[])
   const handleChange = (event) => {
     setTask(event.target.value);
   };
@@ -18,11 +17,11 @@ function ToDoList() {
   const taskInput = (event) => {
     event.preventDefault();
     if (task === "") return;
-    setTasks([...tasks, { name: task }]);
+    setTasks([...tasks, task]);
     setTask("");
   };
 
-  const buttonStyle1 = {
+  const button_style1 = {
     color: "white",
     backgroundColor: "green",
     fontSize: "1.7rem",
@@ -33,8 +32,7 @@ function ToDoList() {
     cursor: "pointer",
     transition: "background-color 0.3s ease",
   };
-
-  const buttonStyle2 = {
+  const button_style2 = {
     color: "white",
     backgroundColor: "red",
     fontSize: "1.7rem",
@@ -45,8 +43,7 @@ function ToDoList() {
     cursor: "pointer",
     transition: "background-color 0.3s ease",
   };
-
-  const buttonStyle3 = {
+  const button_style3 = {
     color: "yellow",
     backgroundColor: "lightblue",
     fontSize: "1.7rem",
@@ -59,44 +56,48 @@ function ToDoList() {
   };
 
   const handleRemoval = (index) => {
-    setTasks(tasks.filter((_, idx) => idx !== index));
+    setTasks(tasks.filter((_, index1) => index1 !== index));
   };
 
   const handleUpvote = (index) => {
-    if (index > 0) {
-      const temp = [...tasks];
-      [temp[index], temp[index - 1]] = [temp[index - 1], temp[index]];
-      setTasks(temp);
+    if (index>0){
+        const temp = [...tasks];
+        [temp[index], temp[index-1]] = [temp[index-1], temp[index]];
+        setTasks(temp);
     }
+   
+    
   };
 
   const handleDownvote = (index) => {
-    if (index < tasks.length - 1) {
-      const temp = [...tasks];
-      [temp[index], temp[index + 1]] = [temp[index + 1], temp[index]];
-      setTasks(temp);
+    if (index<tasks.length-1){
+        const temp = [...tasks];
+        [temp[index-1], temp[index]] = [temp[index], temp[index-1]];
+        setTasks(temp);
     }
   };
 
+ 
+
   return (
-    <div style={{ backgroundColor: "gray", padding: "20px" }}>
+    <div style={{ backgroundColor: "gray" }}>
       <div>
-        <h1 style={{ fontSize: "4rem", color: "white" }}>To-Do List</h1>
+        <h1 style={{ fontSize: "4rem", color: "white" }}>To-Do-List</h1>
         <form onSubmit={taskInput}>
           <input
             style={{
               fontSize: "1.6rem",
               padding: "10px",
-              border: "2px solid rgba(0,0,0,0.5)",
+              border: "2px solid hsl(0,0%,80%,0.5)",
               borderRadius: "5px",
-              color: "rgba(0,0,0,0.5)",
+              color: "hsl(0,0%,0%,0.5)",
             }}
             value={task}
             type="text"
             id="task"
             onChange={handleChange}
           />
-          <button style={buttonStyle1} type="submit">
+          <button style={button_style1} type="submit">
             Add
           </button>
         </form>
@@ -109,5 +110,33 @@ function ToDoList() {
               fontSize: "2rem",
               fontWeight: "bold",
               padding: "10px",
-              backgroundColor: "rgba(255,255,255,0.97)",
-              marginBottom:
+              backgroundColor: "hsl(0,0%,97%)",
+              marginBottom: "10px",
+              border: "3px solid hsl(0,0%,85%,0.75)",
+              borderRadius: "5px",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <span style={{ flex: "1" }}>
+              {task}
+            </span>
+            <button style={button_style2} onClick={() => handleRemoval(index)}>
+              Delete
+            </button>
+            |
+            <button style={button_style3} onClick={() => handleUpvote(index)}>
+              ☝️
+            </button>
+            |
+            <button style={button_style3} onClick={() => handleDownvote(index)}>
+              👇
+            </button>
+          </li>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default To_do_list;
